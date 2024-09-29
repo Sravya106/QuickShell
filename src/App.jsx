@@ -5,7 +5,7 @@ import Navbar from './components/Navbar';
 import axios from 'axios';
 
 const App = () => {
-  // Initialize state with local storage values (or fall back to default)
+  
   const [groupingOption, setGroupingOption] = useState(
     localStorage.getItem('groupingOption') || 'status'
   );
@@ -15,7 +15,7 @@ const App = () => {
   const [tickets, setTickets] = useState([]);
   const [users, setUsers] = useState({});
 
-  // Fetch tickets and user data from the API using axios
+  //API CALL
   useEffect(() => {
     axios
       .get('https://api.quicksell.co/v1/internal/frontend-assignment')
@@ -35,7 +35,7 @@ const App = () => {
       });
   }, []);
 
-  // Store grouping and sorting options in local storage when they change
+  // for persistent storage upon reload : 
   useEffect(() => {
     localStorage.setItem('groupingOption', groupingOption);
   }, [groupingOption]);
@@ -44,20 +44,21 @@ const App = () => {
     localStorage.setItem('sortOption', sortOption);
   }, [sortOption]);
 
-  // Sort tickets based on the selected option
+  //sorting logic :
+
   const getSortedTickets = () => {
     const sortedTickets = [...tickets];
     if (sortOption === 'priority') {
-      // Sort tickets by priority in descending order
+      // by priority in descending order
       sortedTickets.sort((a, b) => b.priority - a.priority);
     } else if (sortOption === 'title') {
-      // Sort tickets by title in ascending order
+      // by title in ascending order
       sortedTickets.sort((a, b) => a.title.localeCompare(b.title));
     }
     return sortedTickets;
   };
 
-  // Group tickets based on the selected grouping option
+  //grouping logic :
   const getGroupedTickets = () => {
     const groupedTickets = {};
     const sortedTickets = getSortedTickets();
@@ -65,7 +66,7 @@ const App = () => {
     sortedTickets.forEach((ticket) => {
       let groupKey;
 
-      // Determine the group key based on the selected grouping option
+     
       if (groupingOption === 'status') {
         groupKey = ticket.status;
       } else if (groupingOption === 'user') {
@@ -74,7 +75,7 @@ const App = () => {
         groupKey = `Priority ${ticket.priority}`;
       }
 
-      // Initialize group if it doesn't exist, and then add the ticket
+     
       if (!groupedTickets[groupKey]) {
         groupedTickets[groupKey] = [];
       }
@@ -84,8 +85,9 @@ const App = () => {
     return groupedTickets;
   };
 
-  // Render the Kanban board with grouped and sorted tickets
-  const renderKanbanBoard = () => {
+  // function to render the board :
+
+  const  f = () => {
     const groupedTickets = getGroupedTickets();
 
     return (
@@ -109,7 +111,7 @@ const App = () => {
                 <h2 className='column-header-name'>{group}</h2>
                 <h2 className='column-header-count'>{groupedTickets[group].length}</h2> {/* Display the count */}
               </div>
-              {/* Show user image in column header if grouping by user */}
+             
 
               <div className="column-header-icons">
                 <img src="src/assets/add.svg" alt="Add Icon" />
@@ -122,11 +124,11 @@ const App = () => {
                   key={ticket.id}
                   id={ticket.id}
                   title={ticket.title}
-                  tag={ticket.tag.join(', ')} // Combine multiple tags if needed
+                  tag={ticket.tag} 
                   priority={ticket.priority}
                   status={ticket.status}
-                  userImage={'src/assets/person.png'} // Replace with user image URL based on `userId`
-                  showUserImage={groupingOption !== 'user'} // Set to false when grouping by users
+                  userImage={'src/assets/person.png'} 
+                  showUserImage={groupingOption !== 'user'} 
                 />
               ))}
             </div>
@@ -141,7 +143,7 @@ const App = () => {
   return (
     
     <div className="app">
-      {/* Control Panel for Grouping and Sorting */}
+   
       <Navbar
         groupingOption={groupingOption}
         setGroupingOption={setGroupingOption}
@@ -149,8 +151,8 @@ const App = () => {
         setSortOption={setSortOption}
       />
 
-      {/* Render the Kanban Board */}
-      {renderKanbanBoard()}
+ 
+      {f()} 
     </div>
   );
 };

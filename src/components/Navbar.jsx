@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './Navbar.css'; 
 
 const Navbar = ({ groupingOption, setGroupingOption, sortOption, setSortOption }) => {
-  const [showDisplayOptions, setShowDisplayOptions] = useState(false); // Toggle display options
+  const [showDisplayOptions, setShowDisplayOptions] = useState(false); 
 
   return (
     <div className="navbar">

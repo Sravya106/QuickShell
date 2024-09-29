@@ -1,5 +1,5 @@
 import React from 'react';
-import './TaskCard.css';  // Optional: Create a CSS file for custom styling if needed
+import './TaskCard.css';  
 
 const priorityIcons = {
   4: 'src/assets/SVG - Urgent Priority grey.svg',  // Urgent
@@ -38,14 +38,12 @@ const TaskCard = ({ id, title, tag, priority, userImage, status, showUserImage }
         <h3 roboto-regular>{title}</h3>
       </div>
 
-      {/* Task Metadata */}
       <div className="task-footer">
-        {/* Priority Icon */}
+       
         <span className="priority-icon">
           <img src={priorityIcons[priority]} alt="Priority Icon" style={{ width: '20px', height: '20px' }} />
         </span>
 
-        {/* Task Tag */}
         <div className='task-tag-parent'>
 
 
