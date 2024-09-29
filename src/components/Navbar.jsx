@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import './Navbar.css'; 
 
-const Navbar = ({ groupingOption, setGroupingOption, sortOption, setSortOption }) => {
+const Navbar =    ({ groupingOption, setGroupingOption, sortOption, setSortOption }) => {
+
+
+  
   const [showDisplayOptions, setShowDisplayOptions] = useState(false); 
 
   return (
