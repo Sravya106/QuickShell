@@ -99,7 +99,7 @@ const App = () => {
               <div className='column-header-pp' style={{ display: 'flex', alignItems: 'center', }}>
   {groupingOption === 'user' && (
     <img 
-      src={'src/assets/person.png'} 
+      src={'/assets/person.png'} 
       alt="User Avatar" 
       className="avatar" 
       style={{ width: '30px', height: '30px', borderRadius: '50%', marginTop: '10px' }} 
@@ -114,8 +114,8 @@ const App = () => {
              
 
               <div className="column-header-icons">
-                <img src="src/assets/add.svg" alt="Add Icon" />
-                <img src="src/assets/3 dot menu.svg" alt="Menu Icon" />
+                <img src="/assets/add.svg" alt="Add Icon" />
+                <img src="/assets/3 dot menu.svg" alt="Menu Icon" />
               </div>
             </div>
             <div className="kanban-cards">
@@ -127,7 +127,7 @@ const App = () => {
                   tag={ticket.tag} 
                   priority={ticket.priority}
                   status={ticket.status}
-                  userImage={'src/assets/person.png'} 
+                  userImage={'/assets/person.png'} 
                   showUserImage={groupingOption !== 'user'} 
                 />
               ))}

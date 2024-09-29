@@ -4,16 +4,16 @@ import './Navbar.css';
 const Navbar =    ({ groupingOption, setGroupingOption, sortOption, setSortOption }) => {
 
 
-  
+
   const [showDisplayOptions, setShowDisplayOptions] = useState(false); 
 
   return (
     <div className="navbar">
       <div className="display-button">
   <button onClick={() => setShowDisplayOptions(!showDisplayOptions)}>
-    <img src="src\assets\Display.svg" alt="Before" className="button-image" />
+    <img src="/assets/Display.svg" alt="Before" className="button-image" />
     Display
-    <img src="src\assets\down.svg" alt="After" className="button-image" />
+    <img src="/assets/down.svg" alt="After" className="button-image" />
   </button>
 
   {showDisplayOptions && (

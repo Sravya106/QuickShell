@@ -2,19 +2,19 @@ import React from 'react';
 import './TaskCard.css';  
 
 const priorityIcons = {
-  4: 'src/assets/SVG - Urgent Priority grey.svg',  // Urgent
-  3: 'src/assets/Img - High Priority.svg',    // High
-  2: 'src/assets/Img - Medium Priority.svg',  // Medium
-  1: 'src/assets/Img - Low Priority.svg',     // Low
-  0: 'src/assets/No-priority.svg',    // No priority
+  4: '/assets/SVG - Urgent Priority grey.svg',  // Urgent
+  3: '/assets/Img - High Priority.svg',    // High
+  2: '/assets/Img - Medium Priority.svg',  // Medium
+  1: '/assets/Img - Low Priority.svg',     // Low
+  0: '/assets/No-priority.svg',    // No priority
 };
 
 const statusIcons = {
-  "Backlog" : 'src/assets/Backlog.svg',
-  "In progress" : 'src/assets/in-progress.svg',
-  "Todo" : 'src/assets/To-do.svg',
-  "Cancelled" : 'src/assets/Cancelled.svg',
-  "Done" : 'src/assets/Done.svg'
+  "Backlog" : '/assets/Backlog.svg',
+  "In progress" : '/assets/in-progress.svg',
+  "Todo" : '/assets/To-do.svg',
+  "Cancelled" : '/assets/Cancelled.svg',
+  "Done" : '/assets/Done.svg'
 }
 const TaskCard = ({ id, title, tag, priority, userImage, status, showUserImage }) => {
   return (
