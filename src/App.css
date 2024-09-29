@@ -1,0 +1,83 @@
+.app {
+  display: flex;
+  flex-direction: column; /* Keep the main layout vertical */
+  align-items: center; /* Center-align the contents */
+  width: 100vw;
+  height: 100vh;
+  background-color: #f4f4f9;
+  color: black;
+}
+
+.control-panel {
+  display: flex; /* Use flexbox for the control panel */
+  justify-content: space-between; /* Distribute space between items */
+  width: 100%; /* Full width for the control panel */
+  margin-bottom: 20px; /* Space between control panel and Kanban board */
+}
+
+.grouping-options,
+.sorting-options {
+  margin-right: 20px; /* Space between grouping and sorting options */
+}
+
+/* Kanban board styles */
+.kanban-board {
+  display: flex; /* Use flexbox for the Kanban board */
+  justify-content: space-between; /* Distribute columns evenly */
+  width: 100%; /* Full width for the Kanban board */
+
+  background-color: #f4f4f9;
+}
+
+.kanban-column {
+  flex: 1; /* Equal space */
+  margin-right: 20px; /* Space between columns */
+  padding: 0; /* Ensure no padding */
+  display: flex; /* Use flex to align children */
+  flex-direction: column; /* Stack items vertically */
+}
+
+
+/* Remove margin from the last column */
+.kanban-column:last-child {
+  margin-right: 0; /* No margin on the rightmost column */
+}
+
+.column-header {
+  display: flex; /* Use flexbox to align items in the header */
+  align-items: center; /* Center align items vertically */
+  font-family: Arial, Helvetica, sans-serif;
+  color: black;
+  justify-content: space-between; /* Distribute space evenly */
+}
+
+.column-header-text {
+  display: flex; /* Ensure header text is also flex */
+  align-items: center; /* Center align text vertically */
+}
+
+.column-header-name {
+  
+  color: #000000;
+  font-size: 19px;
+}
+
+.column-header-count {
+  margin-left: 20px;
+  color: rgb(191, 177, 177);
+  font-size: 19px;
+}
+
+.column-header-icons {
+  cursor: pointer;
+  display: flex;
+  align-items: center; /* Center align icons vertically */
+}
+
+.column-header-icons img {
+  height: 25px;
+  width: 25px;
+  margin-left: 10px; /* Space between icons */
+}
+
+
