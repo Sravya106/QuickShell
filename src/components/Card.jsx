@@ -11,7 +11,7 @@ const priorityIcons = {
 
 const statusIcons = {
   "Backlog": '/assets/Backlog.svg',
-  "InProgress": '/assets/in-progress.svg',
+  "In progress": '/assets/in-progress.svg',
   "Todo": '/assets/To-do.svg',
   "Cancelled": '/assets/Cancelled.svg',
   "Completed": '/assets/Done.svg'
