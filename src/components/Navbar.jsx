@@ -1,56 +1,48 @@
 import React, { useState } from 'react';
 import './Navbar.css'; 
 
-const Navbar =    ({ groupingOption, setGroupingOption, sortOption, setSortOption }) => {
-
-
-
-  const [showDisplayOptions, setShowDisplayOptions] = useState(false); 
+const Navbar = ({ groupBy, setGroupBy, sortBy, setSortBy }) => {
+  const [isDropdownVisible, setIsDropdownVisible] = useState(false); 
 
   return (
-    <div className="navbar">
-      <div className="display-button">
-  <button onClick={() => setShowDisplayOptions(!showDisplayOptions)}>
-    <img src="/assets/Display.svg" alt="Before" className="button-image" />
-    Display
-    <img src="/assets/down.svg" alt="After" className="button-image" />
-  </button>
+    <nav className="navbar">
+      <div className="toggle-display">
+        <button onClick={() => setIsDropdownVisible(!isDropdownVisible)}>
+          <img src="/assets/Display.svg" alt="Display Icon" className="icon" />
+          Display
+          <img src="/assets/down.svg" alt="Dropdown Icon" className="icon" />
+        </button>
 
-  {showDisplayOptions && (
-    <div className="display-dropdown">
-      {/* Grouping Options */}
-      <div className="dropdown-group">
-        <h4 className='roboto-regular'>Grouping:</h4>
-        <select
-          value={groupingOption}
-          onChange={(e) => {
-            setGroupingOption(e.target.value);
-          }}
-        >
-          <option value="status">Status</option>
-          <option value="user">User</option>
-          <option value="priority">Priority</option>
-        </select>
-      </div>
+        {isDropdownVisible && (
+          <div className="dropdown-menu">
+            <div className="dropdown-section">
+              <label className="grouping-label">Group By:</label>
+              <select
+                value={groupBy}
+                onChange={(e) => setGroupBy(e.target.value)}
+              >
+                <option value="status">Status</option>
+                <option value="user">User</option>
+                <option value="priority">Priority</option>
+              </select>
+            </div>
 
-      {/* Ordering Options */}
-      <div className="dropdown-group">
-        <h4>Ordering:</h4>
-        <select
-          value={sortOption}
-          onChange={(e) => {
-            setSortOption(e.target.value);
-          }}
-        >
-          <option value="title">Title</option>
-          <option value="priority">Priority</option>
-        </select>
+            <div className="dropdown-section">
+              <label className="sorting-label">Sort By:</label>
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+              >
+                <option value="title">Title</option>
+                <option value="priority">Priority</option>
+              </select>
+            </div>
+          </div>
+        )}
       </div>
-    </div>
-  )}
-</div>
-    </div>
+    </nav>
   );
 };
 
 export default Navbar;
+

@@ -1,134 +1,118 @@
 import React, { useState, useEffect } from 'react';
-import TaskCard from './components/TaskCard';
+import TaskCard from './components/Card';
 import './App.css';
 import Navbar from './components/Navbar';
 import axios from 'axios';
 
 const App = () => {
-  
-  const [groupingOption, setGroupingOption] = useState(
-    localStorage.getItem('groupingOption') || 'status'
+  const [groupBy, setGroupBy] = useState(
+    localStorage.getItem('groupBy') || 'status'
   );
-  const [sortOption, setSortOption] = useState(
-    localStorage.getItem('sortOption') || 'title'
+  const [sortBy, setSortBy] = useState(
+    localStorage.getItem('sortBy') || 'title'
   );
-  const [tickets, setTickets] = useState([]);
-  const [users, setUsers] = useState({});
+  const [tasks, setTasks] = useState([]);
+  const [userMapping, setUserMapping] = useState({});
 
-  //API CALL
   useEffect(() => {
     axios
       .get('https://api.quicksell.co/v1/internal/frontend-assignment')
       .then((response) => {
         const data = response.data;
-        setTickets(data.tickets);
+        setTasks(data.tickets);
 
-        // Create a mapping of user IDs to names
         const userMap = {};
         data.users.forEach((user) => {
           userMap[user.id] = user.name;
         });
-        setUsers(userMap);
+        setUserMapping(userMap);
       })
       .catch((error) => {
         console.error('Error fetching data:', error);
       });
   }, []);
 
-  // for persistent storage upon reload : 
   useEffect(() => {
-    localStorage.setItem('groupingOption', groupingOption);
-  }, [groupingOption]);
+    localStorage.setItem('groupBy', groupBy);
+  }, [groupBy]);
 
   useEffect(() => {
-    localStorage.setItem('sortOption', sortOption);
-  }, [sortOption]);
+    localStorage.setItem('sortBy', sortBy);
+  }, [sortBy]);
 
-  //sorting logic :
-
-  const getSortedTickets = () => {
-    const sortedTickets = [...tickets];
-    if (sortOption === 'priority') {
-      // by priority in descending order
-      sortedTickets.sort((a, b) => b.priority - a.priority);
-    } else if (sortOption === 'title') {
-      // by title in ascending order
-      sortedTickets.sort((a, b) => a.title.localeCompare(b.title));
+  const getSortedTasks = () => {
+    const sortedTasks = [...tasks];
+    if (sortBy === 'priority') {
+      sortedTasks.sort((a, b) => b.priority - a.priority);
+    } else if (sortBy === 'title') {
+      sortedTasks.sort((a, b) => a.title.localeCompare(b.title));
     }
-    return sortedTickets;
+    return sortedTasks;
   };
 
-  //grouping logic :
-  const getGroupedTickets = () => {
-    const groupedTickets = {};
-    const sortedTickets = getSortedTickets();
+  const getGroupedTasks = () => {
+    const groupedTasks = {};
+    const sortedTasks = getSortedTasks();
 
-    sortedTickets.forEach((ticket) => {
+    sortedTasks.forEach((task) => {
       let groupKey;
 
-     
-      if (groupingOption === 'status') {
-        groupKey = ticket.status;
-      } else if (groupingOption === 'user') {
-        groupKey = users[ticket.userId] || ticket.userId;
-      } else if (groupingOption === 'priority') {
-        groupKey = `Priority ${ticket.priority}`;
+      if (groupBy === 'status') {
+        groupKey = task.status;
+      } else if (groupBy === 'user') {
+        groupKey = userMapping[task.userId] || task.userId;
+      } else if (groupBy === 'priority') {
+        groupKey = `Priority ${task.priority}`;
       }
 
-     
-      if (!groupedTickets[groupKey]) {
-        groupedTickets[groupKey] = [];
+      if (!groupedTasks[groupKey]) {
+        groupedTasks[groupKey] = [];
       }
-      groupedTickets[groupKey].push(ticket);
+      groupedTasks[groupKey].push(task);
     });
 
-    return groupedTickets;
+    return groupedTasks;
   };
 
-  // function to render the board :
-
-  const  f = () => {
-    const groupedTickets = getGroupedTickets();
+  const renderBoard = () => {
+    const groupedTasks = getGroupedTasks();
 
     return (
-      <div className="kanban-board">
-        {Object.keys(groupedTickets).map((group) => (
-          <div key={group} className="kanban-column">
+      <div className="board">
+        {Object.keys(groupedTasks).map((group) => (
+          <div key={group} className="board-column">
             <div className="column-header">
-              <div className='column-header-text'>
-              <div className='column-header-pp' style={{ display: 'flex', alignItems: 'center', }}>
-  {groupingOption === 'user' && (
-    <img 
-      src={'/assets/person.png'} 
-      alt="User Avatar" 
-      className="avatar" 
-      style={{ width: '30px', height: '30px', borderRadius: '50%', marginTop: '10px' }} 
-    />
-  )}
- 
-</div>
-
-                <h2 className='column-header-name'>{group}</h2>
-                <h2 className='column-header-count'>{groupedTickets[group].length}</h2> {/* Display the count */}
+              <div className="column-header-info">
+                {groupBy === 'user' && (
+                  <div className="user-avatar">
+                    <img 
+                      src={'/assets/person.jpg'}
+                      alt="User Avatar"
+                      className="avatar"
+                    />
+                  </div>
+                )}
+                <h2 className="column-title">{group}</h2>
+                <h2 className="column-count">{groupedTasks[group].length}</h2>
               </div>
-             
 
-              <div className="column-header-icons">
-                <img src="/assets/add.svg" alt="Add Icon" />
-                <img src="/assets/3 dot menu.svg" alt="Menu Icon" />
+              <div className="column-actions">
+                <img src="/assets/add.svg" alt="Add Task" className="action-icon" />
+                <img src="/assets/3 dot menu.svg" alt="Options" className="action-icon" />
               </div>
             </div>
-            <div className="kanban-cards">
-              {groupedTickets[group].map((ticket) => (
+
+            <div className="board-cards">
+              {groupedTasks[group].map((task) => (
                 <TaskCard
-                  key={ticket.id}
-                  id={ticket.id}
-                  title={ticket.title}
-                  tag={ticket.tag} 
-                  priority={ticket.priority}
-                  status={ticket.status}
-                  userImage={'/assets/person.png'} 
-                  showUserImage={groupingOption !== 'user'} 
+                  key={task.id}
+                  id={task.id}
+                  title={task.title}
+                  tag={task.tag}
+                  priority={task.priority}
+                  status={task.status}
+                  userImage={'/assets/person.jpg'}
+                  showUserImage={groupBy !== 'user'}
                 />
               ))}
             </div>
@@ -138,21 +122,15 @@ const App = () => {
     );
   };
 
-
-
   return (
-    
-    <div className="app">
-   
+    <div className="app-container">
       <Navbar
-        groupingOption={groupingOption}
-        setGroupingOption={setGroupingOption}
-        sortOption={sortOption}
-        setSortOption={setSortOption}
+        groupBy={groupBy}
+        setGroupBy={setGroupBy}
+        sortBy={sortBy}
+        setSortBy={setSortBy}
       />
-
- 
-      {f()} 
+      {renderBoard()}
     </div>
   );
 };
